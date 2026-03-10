@@ -36,39 +36,39 @@ Workflows are declarative step sequences triggered by events. The AI assistant b
 
 ## Examples
 
-### [Logistics](examples/logistics/) — 11 verticals, 33 examples
+### [Logistics](examples/logistics/)
 
 [Freight Forwarding](examples/logistics/freight-forwarding/) · [Import & Export](examples/logistics/import-export/) · [Trucking & Transportation](examples/logistics/trucking-transportation/) · [Warehousing & Fulfillment](examples/logistics/warehousing-fulfillment/) · [Container Depot](examples/logistics/container-depot/) · [Customs Brokerage](examples/logistics/customs-brokerage/) · [Food Distribution](examples/logistics/food-distribution/) · [Pharma Distribution](examples/logistics/pharma-distribution/) · [Project Cargo](examples/logistics/project-cargo/) · [Sourcing Agent](examples/logistics/sourcing-agent/) · [Dangerous Goods](examples/logistics/dangerous-goods/)
 
-### [Manufacturing](examples/manufacturing/) — 4 verticals, 12 examples
+### [Manufacturing](examples/manufacturing/)
 
 [Production Operations](examples/manufacturing/production-operations/) · [Procurement & Sourcing](examples/manufacturing/procurement-sourcing/) · [Quality Control](examples/manufacturing/manufacturing-quality-control/) · [Maintenance & Facilities](examples/manufacturing/maintenance-facilities/)
 
-### [Construction & Field](examples/construction-field/) — 8 verticals, 24 examples
+### [Construction & Field](examples/construction-field/)
 
 [Project Management](examples/construction-field/construction-project-management/) · [Field Service](examples/construction-field/field-service/) · [Equipment & Asset Tracking](examples/construction-field/equipment-asset-tracking/) · [Construction](examples/construction-field/construction/) · [Equipment Rental](examples/construction-field/equipment-rental/) · [HVAC / Field Service](examples/construction-field/hvac-field-service/) · [Event Rental](examples/construction-field/event-rental/) · [Auto Repair](examples/construction-field/auto-repair/)
 
-### [Retail & Distribution](examples/retail-distribution/) — 2 verticals, 6 examples
+### [Retail & Distribution](examples/retail-distribution/)
 
 [Inventory & Replenishment](examples/retail-distribution/inventory-replenishment/) · [Multi-Location Operations](examples/retail-distribution/multi-location-operations/)
 
-### [Professional Services](examples/professional-services/) — 4 verticals, 12 examples
+### [Professional Services](examples/professional-services/)
 
 [Operations & Delivery](examples/professional-services/operations-delivery/) · [Finance & Back Office](examples/professional-services/finance-back-office/) · [Law Firms](examples/professional-services/law-firms/) · [Recruitment / Staffing](examples/professional-services/recruitment-staffing/)
 
-### [Real Estate](examples/real-estate/) — 2 verticals, 6 examples
+### [Real Estate](examples/real-estate/)
 
 [Property Management](examples/real-estate/property-management/) · [Development & Planning](examples/real-estate/development-planning/)
 
-### [Healthcare & Clinics](examples/healthcare-clinics/) — 3 verticals, 9 examples
+### [Healthcare & Clinics](examples/healthcare-clinics/)
 
 [Clinic Operations](examples/healthcare-clinics/clinic-operations/) · [Medical Supply Management](examples/healthcare-clinics/medical-supply-management/) · [Veterinary](examples/healthcare-clinics/veterinary/)
 
-### [Services](examples/services/) — 6 verticals, 18 examples
+### [Services](examples/services/)
 
 [Spa & Aesthetics](examples/services/salon-spa/) · [Fitness / Gym](examples/services/gym-fitness/) · [Language Schools](examples/services/language-schools/) · [Laundry & Dry Cleaning](examples/services/laundry-dry-cleaning/) · [Photography Studio](examples/services/photography-studio/) · [Event Management](examples/services/event-management/)
 
-### [Government & Public Sector](examples/public-sector/) — 2 verticals, 6 examples
+### [Government & Public Sector](examples/public-sector/)
 
 [Internal Operations](examples/public-sector/government-operations/) · [Infrastructure Projects](examples/public-sector/infrastructure-projects/)
 
