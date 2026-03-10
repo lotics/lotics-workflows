@@ -24,48 +24,79 @@ Say this to the [Lotics](https://lotics.ai) AI assistant:
 
 ## Workflow
 
+**Trigger:** `record_updated` on the Gate Transactions table (fires on new records and updates).
+
+**Steps:**
+
 ```json
-{
-  "name": "Gate Receipt Automation",
-  "trigger": { "type": "record_created", "table": "Gate Transactions" },
-  "steps": [
-    {
-      "name": "Update container status",
-      "type": "update_record",
-      "table": "Containers",
-      "record": "{{container}}",
-      "fields": {
-        "status": "{{if type == 'Gate In' then 'In Yard' else 'Gate Out'}}"
+[
+  {
+    "id": "update_status",
+    "type": "tool_call",
+    "description": "Update container status based on gate type",
+    "tool_name": "update_record",
+    "input": {
+      "table_id": "{{trigger.record_updated.table_id}}",
+      "record_id": "{{trigger.record_updated.next_data.container}}",
+      "data": {
+        "status": "{{trigger.record_updated.next_data.type === 'Gate In' ? 'In Yard' : 'Gate Out'}}"
       }
-    },
-    {
-      "name": "Check for damage",
-      "type": "condition",
-      "condition": "damage_notes is not empty",
-      "on_true": [
-        {
-          "type": "create_record",
-          "table": "Repairs",
-          "fields": { "container": "{{container}}", "reported_damage": "{{damage_notes}}" }
-        }
-      ]
-    },
-    {
-      "name": "Generate gate receipt",
-      "type": "generate_document",
-      "template": "gate_receipt",
-      "output_field": "receipt_pdf"
-    },
-    {
-      "name": "Email receipt",
-      "type": "send_email",
-      "to": "{{container.customer.contact_email}}",
-      "subject": "Gate {{type}} — {{container.container_number}}",
-      "attachments": ["{{receipt_pdf}}"]
     }
-  ]
-}
+  },
+  {
+    "id": "check_damage",
+    "type": "if",
+    "description": "Check if damage was reported",
+    "condition": "{{trigger.record_updated.next_data.damage_notes !== null && trigger.record_updated.next_data.damage_notes !== ''}}",
+    "then": [
+      {
+        "id": "create_repair",
+        "type": "tool_call",
+        "description": "Create repair record for damaged container",
+        "tool_name": "create_record",
+        "input": {
+          "table_id": "repairs_table_id",
+          "data": {
+            "container": "{{trigger.record_updated.next_data.container}}",
+            "reported_damage": "{{trigger.record_updated.next_data.damage_notes}}"
+          }
+        }
+      }
+    ]
+  },
+  {
+    "id": "generate_receipt",
+    "type": "tool_call",
+    "description": "Generate gate receipt PDF",
+    "tool_name": "generate_pdf_from_html_template",
+    "input": {
+      "template_id": "gate_receipt_template_id",
+      "record_id": "{{trigger.record_updated.record_id}}",
+      "table_id": "{{trigger.record_updated.table_id}}"
+    }
+  },
+  {
+    "id": "email_receipt",
+    "type": "tool_call",
+    "description": "Email receipt to customer",
+    "tool_name": "gmail_send_email",
+    "input": {
+      "to": "{{trigger.record_updated.display.container.customer.contact_email}}",
+      "subject": "Gate {{trigger.record_updated.next_data.type}} — {{trigger.record_updated.display.container.container_number}}",
+      "body": "Attached is your gate receipt.",
+      "attachments": ["{{generate_receipt.output.file_url}}"]
+    }
+  }
+]
 ```
+
+**Expression syntax:** `{{ }}` wraps JavaScript expressions evaluated against the workflow execution context. `trigger.record_updated.*` accesses the trigger payload. `{step_id}.output.*` accesses results from previous steps.
+
+**Step types used:**
+- `tool_call` — executes a registered tool (`update_record`, `create_record`, `generate_pdf_from_html_template`, `gmail_send_email`)
+- `if` — conditional branching with `condition`, `then`, and optional `else`
+
+Other available step types: `switch` (multi-way branch), `foreach` (loop over arrays), `wait` (delay), `wait_for_event` (pause for external event like payment), `return` (exit early).
 
 ## Results
 
