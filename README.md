@@ -1,6 +1,6 @@
 # Lotics Workflows
 
-126 ready-to-use workflow examples for [Lotics](https://lotics.ai), the AI-native operations platform. Each example includes a data model, natural-language prompts, and workflow JSON you can deploy by pasting the prompts into the Lotics AI assistant.
+Ready-to-use workflow examples for [Lotics](https://lotics.ai), the AI-native operations platform. Each example includes a data model, natural-language prompts, and workflow JSON you can deploy by pasting the prompts into the Lotics AI assistant.
 
 ## Workflow engine reference
 
