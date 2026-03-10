@@ -1,119 +1,81 @@
 # Lotics Workflows
 
-Operations automation examples for [Lotics](https://lotics.ai) — the AI-native operations platform for businesses that run on documents, manual tracking, and repetitive coordination.
+126 ready-to-use workflow examples for [Lotics](https://lotics.ai), the AI-native operations platform. Each example includes a data model, natural-language prompts, and workflow JSON you can deploy by pasting the prompts into the Lotics AI assistant.
 
-## The problem
+## Workflow engine reference
 
-Operations teams spend hours on work that doesn't create value but is necessary to keep things running:
+Workflows are declarative step sequences triggered by events. The AI assistant builds these from natural language — the JSON below is what it produces.
 
-- **Manual tracking** — status lives in spreadsheets nobody updates, emails nobody finds, messages nobody follows up on
-- **Manual data entry** — data from incoming documents is keyed in by hand, then retyped again to produce outgoing documents
-- **Manual follow-ups** — approvals, reminders, and status updates depend on someone remembering to chase them
-- **Human errors** — wrong data, outdated files, and mismatched documents surface late and cost time to fix
+**Triggers** — what starts the workflow:
 
-## What Lotics does
+`record_updated` · `recurring_schedule` · `receive_gmail_email` · `receive_outlook_email` · `button_pressed` · `form_submitted` · `record_submit` · `app_action` · `receive_webhook`
 
-**Live database** — All operational data in one place, synced in real time. No more chasing updates across spreadsheets, emails, and chat.
+**Steps** — what the workflow does:
 
-**Document processing** — AI extracts data from incoming documents, cross-checks against related paperwork, and fills outgoing reports and PDFs.
+| Step | Purpose |
+|------|---------|
+| `tool_call` | Execute a tool (see below) |
+| `if` / `switch` | Branch on a condition or value |
+| `foreach` | Loop over an array |
+| `wait` | Pause for a duration |
+| `wait_for_event` | Pause until an external event (payment, webhook) |
+| `return` | Exit early with success or error |
 
-**Workflow automation** — Repetitive tasks like follow-ups, status updates, approvals, and handoffs run automatically.
+**Tools** — 37 operations available in workflows:
 
-**AI assistant** — Every team member gets an assistant that answers questions, updates records, generates reports, and executes tasks from live data.
+| Category | Tools |
+|----------|-------|
+| Records | `create_record`, `update_record`, `delete_record`, `query_records`, `get_record`, `aggregate_records`, `query_record_logs`, `lock_record`, `unlock_record` |
+| Files | `read_files`, `add_files_to_record`, `extract_file_data`, `rename_files`, `rename_files_in_record`, `remove_files_from_record`, `reorder_files_in_record` |
+| Email | `gmail_send_email`, `gmail_query_emails`, `gmail_read_email`, `gmail_reply_email`, `outlook_send_email`, `outlook_query_emails`, `outlook_read_email`, `outlook_reply_email` |
+| Documents | `generate_pdf_from_html_template`, `generate_pdf_from_pdf_form_template`, `generate_excel_from_template` |
+| AI | `llm_generate_text` |
+| Other | `send_notification`, `query_members`, `create_record_comments`, `get_record_comments`, `create_payment`, `web_scrape_url`, `csv_read_head`, `csv_read_header` |
 
-## Examples by industry
+**Expressions** — `{{ }}` wraps JavaScript expressions. Access trigger data via `trigger.{namespace}.*` and previous step results via `{step_id}.output.*`.
 
-### [Logistics](examples/logistics/)
+## Examples
 
-| Vertical | Examples |
-|----------|----------|
-| [Freight Forwarding](examples/logistics/freight-forwarding/) | Shipment milestone notification, document collection tracker, house bill generation |
-| [Import & Export](examples/logistics/import-export/) | Landed cost calculation, supplier shipping instruction, import permit expiry alert |
-| [Trucking & Transportation](examples/logistics/trucking-transportation/) | Load delivery confirmation, driver compliance check, load dispatch assignment |
-| [Warehousing & Fulfillment](examples/logistics/warehousing-fulfillment/) | Inbound receiving check, low stock replenishment alert, outbound packing slip generation |
-| [Container Depot](examples/logistics/container-depot/) | Container inspection workflow, repair estimate approval, storage billing calculation |
-| [Customs Brokerage](examples/logistics/customs-brokerage/) | Customs declaration processing, compliance document checklist, duty payment tracking |
-| [Food Distribution](examples/logistics/food-distribution/) | Temperature excursion alert, order fulfillment pick list, shelf life expiry management |
-| [Pharma Distribution](examples/logistics/pharma-distribution/) | Batch recall notification, cold chain compliance report, expiry date FEFO enforcement |
-| [Project Cargo / Heavy Lift](examples/logistics/project-cargo/) | Permit and route survey tracker, equipment mobilization checklist, cargo dimension document package |
-| [Sourcing Agent](examples/logistics/sourcing-agent/) | Supplier quotation comparison, QC inspection report, order production tracker |
-| [Dangerous Goods / Hazmat](examples/logistics/dangerous-goods/) | DG declaration generation, segregation compliance check, hazmat training certification tracker |
+### [Logistics](examples/logistics/) — 11 verticals, 33 examples
 
-### [Manufacturing](examples/manufacturing/)
+[Freight Forwarding](examples/logistics/freight-forwarding/) · [Import & Export](examples/logistics/import-export/) · [Trucking & Transportation](examples/logistics/trucking-transportation/) · [Warehousing & Fulfillment](examples/logistics/warehousing-fulfillment/) · [Container Depot](examples/logistics/container-depot/) · [Customs Brokerage](examples/logistics/customs-brokerage/) · [Food Distribution](examples/logistics/food-distribution/) · [Pharma Distribution](examples/logistics/pharma-distribution/) · [Project Cargo](examples/logistics/project-cargo/) · [Sourcing Agent](examples/logistics/sourcing-agent/) · [Dangerous Goods](examples/logistics/dangerous-goods/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Production Operations](examples/manufacturing/production-operations/) | Production order tracking, shift handoff report, scrap rate escalation |
-| [Procurement & Sourcing](examples/manufacturing/procurement-sourcing/) | Supplier quote comparison, purchase order approval, delivery tracking receipts |
-| [Quality Control](examples/manufacturing/manufacturing-quality-control/) | Incoming material inspection, NCR corrective action, SPC out-of-control alert |
-| [Maintenance & Facilities](examples/manufacturing/maintenance-facilities/) | Work order routing, preventive maintenance scheduling, equipment failure history report |
+### [Manufacturing](examples/manufacturing/) — 4 verticals, 12 examples
 
-### [Construction & Field](examples/construction-field/)
+[Production Operations](examples/manufacturing/production-operations/) · [Procurement & Sourcing](examples/manufacturing/procurement-sourcing/) · [Quality Control](examples/manufacturing/manufacturing-quality-control/) · [Maintenance & Facilities](examples/manufacturing/maintenance-facilities/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Project Management](examples/construction-field/construction-project-management/) | Milestone progress report, daily site update digest, budget overrun alert |
-| [Field Service](examples/construction-field/field-service/) | Work order dispatch, service report generation, overdue work order escalation |
-| [Equipment & Asset Tracking](examples/construction-field/equipment-asset-tracking/) | Maintenance schedule alert, equipment transfer log, utilization report |
-| [Construction](examples/construction-field/construction/) | Subcontractor compliance check, material delivery tracking, progress photo documentation |
-| [Equipment Rental](examples/construction-field/equipment-rental/) | Contract expiry renewal, damage inspection report, fleet maintenance scheduling |
-| [HVAC / Field Service](examples/construction-field/hvac-field-service/) | Technician dispatch, preventive maintenance reminder, service completion invoice |
-| [Event Rental](examples/construction-field/event-rental/) | Double booking prevention, delivery schedule notification, post-event inventory reconciliation |
-| [Auto Repair](examples/construction-field/auto-repair/) | Repair order intake, parts reorder alert, vehicle ready notification |
+### [Construction & Field](examples/construction-field/) — 8 verticals, 24 examples
 
-### [Retail & Distribution](examples/retail-distribution/)
+[Project Management](examples/construction-field/construction-project-management/) · [Field Service](examples/construction-field/field-service/) · [Equipment & Asset Tracking](examples/construction-field/equipment-asset-tracking/) · [Construction](examples/construction-field/construction/) · [Equipment Rental](examples/construction-field/equipment-rental/) · [HVAC / Field Service](examples/construction-field/hvac-field-service/) · [Event Rental](examples/construction-field/event-rental/) · [Auto Repair](examples/construction-field/auto-repair/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Inventory & Replenishment](examples/retail-distribution/inventory-replenishment/) | Low stock auto-reorder, cycle count scheduling, supplier delivery reconciliation |
-| [Multi-Location Operations](examples/retail-distribution/multi-location-operations/) | Branch daily sales report, store opening checklist, pricing compliance audit |
+### [Retail & Distribution](examples/retail-distribution/) — 2 verticals, 6 examples
 
-### [Professional Services](examples/professional-services/)
+[Inventory & Replenishment](examples/retail-distribution/inventory-replenishment/) · [Multi-Location Operations](examples/retail-distribution/multi-location-operations/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Operations & Delivery](examples/professional-services/operations-delivery/) | Client project milestone approval, weekly project status report, internal handoff between teams |
-| [Finance & Back Office](examples/professional-services/finance-back-office/) | Expense approval workflow, client invoice generation, vendor bill processing |
-| [Law Firms](examples/professional-services/law-firms/) | New case intake, billable time tracking reminder, client matter progress update |
-| [Recruitment / Staffing](examples/professional-services/recruitment-staffing/) | Candidate screening pipeline, interview scheduling and feedback, placement onboarding checklist |
+### [Professional Services](examples/professional-services/) — 4 verticals, 12 examples
 
-### [Real Estate](examples/real-estate/)
+[Operations & Delivery](examples/professional-services/operations-delivery/) · [Finance & Back Office](examples/professional-services/finance-back-office/) · [Law Firms](examples/professional-services/law-firms/) · [Recruitment / Staffing](examples/professional-services/recruitment-staffing/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Property Management](examples/real-estate/property-management/) | Tenant maintenance request routing, lease expiry notification, rent payment reconciliation |
-| [Development & Planning](examples/real-estate/development-planning/) | Permit status tracking, construction milestone reporting, vendor bid collection |
+### [Real Estate](examples/real-estate/) — 2 verticals, 6 examples
 
-### [Healthcare & Clinics](examples/healthcare-clinics/)
+[Property Management](examples/real-estate/property-management/) · [Development & Planning](examples/real-estate/development-planning/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Clinic Operations](examples/healthcare-clinics/clinic-operations/) | Appointment reminder, patient intake form processing, referral tracking |
-| [Medical Supply Management](examples/healthcare-clinics/medical-supply-management/) | Supply reorder alert, expiration tracking, monthly usage report |
-| [Veterinary](examples/healthcare-clinics/veterinary/) | Vaccination reminder, new patient onboarding, treatment progress report |
+### [Healthcare & Clinics](examples/healthcare-clinics/) — 3 verticals, 9 examples
 
-### [Services](examples/services/)
+[Clinic Operations](examples/healthcare-clinics/clinic-operations/) · [Medical Supply Management](examples/healthcare-clinics/medical-supply-management/) · [Veterinary](examples/healthcare-clinics/veterinary/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Spa & Aesthetics](examples/services/salon-spa/) | Booking confirmation, daily revenue summary, treatment plan follow-up |
-| [Fitness / Gym](examples/services/gym-fitness/) | Membership renewal reminder, PT session summary, class waitlist promotion |
-| [Language Schools](examples/services/language-schools/) | Student enrollment welcome, tuition payment tracking, class attendance report |
-| [Laundry & Dry Cleaning](examples/services/laundry-dry-cleaning/) | Order status notification, daily processing summary, delivery route assignment |
-| [Photography Studio](examples/services/photography-studio/) | Booking intake workflow, post-production tracking, gallery delivery invoice |
-| [Event Management](examples/services/event-management/) | Vendor checklist tracker, budget overrun alert, post-event feedback collection |
+### [Services](examples/services/) — 6 verticals, 18 examples
 
-### [Government & Public Sector](examples/public-sector/)
+[Spa & Aesthetics](examples/services/salon-spa/) · [Fitness / Gym](examples/services/gym-fitness/) · [Language Schools](examples/services/language-schools/) · [Laundry & Dry Cleaning](examples/services/laundry-dry-cleaning/) · [Photography Studio](examples/services/photography-studio/) · [Event Management](examples/services/event-management/)
 
-| Vertical | Examples |
-|----------|----------|
-| [Internal Operations](examples/public-sector/government-operations/) | Document intake routing, approval escalation tracking, FOIA request processing |
-| [Infrastructure Projects](examples/public-sector/infrastructure-projects/) | Contractor compliance check, milestone completion reporting, change order review |
+### [Government & Public Sector](examples/public-sector/) — 2 verticals, 6 examples
 
-## How to use these
+[Internal Operations](examples/public-sector/government-operations/) · [Infrastructure Projects](examples/public-sector/infrastructure-projects/)
+
+## Using these examples
 
 1. Open [Lotics](https://lotics.ai) and start a conversation with the AI assistant
-2. Copy the example prompts from any workflow
+2. Copy the example prompts from any workflow above
 3. The assistant creates the tables, fields, and automation for you
 
-→ [Get started at lotics.ai](https://lotics.ai)
+→ [lotics.ai](https://lotics.ai)
